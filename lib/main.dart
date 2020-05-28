@@ -1,4 +1,5 @@
-import 'package:daily_tasks_manager/screens/TasksScreen.dart';
+import 'package:daily_tasks_manager/screens/TaskScreen/TasksScreen.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,6 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.orange[600],
+      ),
       home: TasksScreen(),
     );
   }
