@@ -9,7 +9,7 @@ const kTaskNumberStyle = TextStyle(
   color: Color(0xFFFB8C00),
 );
 
-const kWelcomeTextStyle = TextStyle(
+const kHeadingTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontSize: 28,
   color: Color(0xFFFB8C00),

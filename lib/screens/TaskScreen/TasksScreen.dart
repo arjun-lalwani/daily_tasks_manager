@@ -13,12 +13,11 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   String dateStr = DateFormat.MMMMEEEEd().format(DateTime.now());
+  int tabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _createBottomNavBar(),
-      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
@@ -27,7 +26,7 @@ class _TasksScreenState extends State<TasksScreen> {
             children: [
               Text(
                 "Welcome back, Arjun",
-                style: kWelcomeTextStyle,
+                style: kHeadingTextStyle,
               ),
               SizedBox(
                 height: 10,
@@ -54,7 +53,6 @@ class _TasksScreenState extends State<TasksScreen> {
                         return DailyTaskCard(task: task);
                       }
                     }
-
                     // submit button at the end
                     return _createSubmitButotn();
                   },
@@ -83,21 +81,6 @@ class _TasksScreenState extends State<TasksScreen> {
           style: kSubmitButtonStyle,
         ),
       ),
-    );
-  }
-
-  Widget _createBottomNavBar() {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-          title: Text("Todo"),
-          icon: Icon(Icons.list),
-        ),
-        BottomNavigationBarItem(
-          title: Text("Stats"),
-          icon: Icon(Icons.insert_chart),
-        ),
-      ],
     );
   }
 }
