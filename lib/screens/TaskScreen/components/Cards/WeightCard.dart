@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
-import '../../Task.dart';
-
-import 'KeyboardOverlay.dart';
-import 'constants.dart';
+import '../../../Task.dart';
+import '../CustomKeyboard/KeyboardOverlay.dart';
+import '../constants.dart';
 
 class WeightCard extends StatefulWidget {
   final Task task;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../Task.dart';
-import 'constants.dart';
+import '../../../Task.dart';
+import '../constants.dart';
 
 class DailyTaskCard extends StatefulWidget {
   final Task task;
@@ -12,7 +12,7 @@ class DailyTaskCard extends StatefulWidget {
 
 class _DailyTaskCardState extends State<DailyTaskCard>
     with AutomaticKeepAliveClientMixin {
-  String _userOptionSelected = "";
+  Icon _userOptionSelected = Icon(Icons.not_interested, color: Colors.grey);
 
   // ListView.builder remembers to keep state when
   // card not displayed on screen
@@ -22,13 +22,13 @@ class _DailyTaskCardState extends State<DailyTaskCard>
   _userOptionTap({bool isCheck}) {
     if (isCheck) {
       setState(() {
-        _userOptionSelected = "check";
-        widget.task.userSelectedValue = _userOptionSelected;
+        _userOptionSelected = Icon(Icons.check, color: Colors.green);
+        widget.task.userSelectedValue = _userOptionSelected.icon;
       });
     } else {
       setState(() {
-        _userOptionSelected = "cancel";
-        widget.task.userSelectedValue = _userOptionSelected;
+        _userOptionSelected = Icon(Icons.close, color: Colors.red);
+        widget.task.userSelectedValue = _userOptionSelected.icon;
       });
     }
   }
@@ -63,7 +63,7 @@ class _DailyTaskCardState extends State<DailyTaskCard>
                       '${widget.task.title}',
                       style: kTaskTitleSyle,
                     ),
-                    _userSelectedOptionIcon(),
+                    _userOptionSelected,
                   ],
                 ),
                 SizedBox(
@@ -103,26 +103,6 @@ class _DailyTaskCardState extends State<DailyTaskCard>
         icon,
         color: Colors.white,
       ),
-    );
-  }
-
-  Widget _userSelectedOptionIcon() {
-    if (_userOptionSelected.length > 0) {
-      if (_userOptionSelected == "check") {
-        return Icon(
-          Icons.check,
-          color: Colors.green,
-        );
-      } else {
-        return Icon(
-          Icons.close,
-          color: Colors.red,
-        );
-      }
-    }
-    return Icon(
-      Icons.not_interested,
-      color: Colors.grey,
     );
   }
 }

@@ -10,8 +10,8 @@ class StatsScreen extends StatefulWidget {
 }
 
 class _StatsScreenState extends State<StatsScreen> {
-  final controller = PageController(initialPage: 1);
-  int currPageNumber = 1;
+  final controller = PageController(initialPage: 0);
+  int currPageNumber = 0;
 
   _createNewPage(newPageNumber) {
     print(newPageNumber);

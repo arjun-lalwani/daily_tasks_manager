@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'InputDoneView.dart';
 
+// Ensure Done button row appears on top of numberpad keyboard (iOS)
 class KeyboardOverlay {
   static OverlayEntry _overlayEntry;
 

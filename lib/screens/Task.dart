@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class Task {
   String title;
   int number;
-  var userSelectedValue;
+  dynamic userSelectedValue =
+      Icons.not_interested; // by default user has not selected any value
 
   Task({this.title, this.number});
 }
@@ -16,6 +17,34 @@ List<Task> tasks = [
   Task(title: 'Exercise', number: 4),
   Task(title: 'Introspection', number: 5),
 ];
+
+Map<IconData, int> iconToIndexMap = {
+  Icons.cancel: 0,
+  Icons.check: 1,
+  Icons.not_interested: 2,
+};
+
+// Return Map: {taskTitle: userSelectedValue}
+// Example: {Enter Weight: 64, Eat Right: 1, Meditation: 0, Exercise: 1, Introspection: 2}
+Map<String, dynamic> getTasksStatus() {
+  Map<String, dynamic> taskStatus = {};
+  for (int i = 0; i < tasks.length; i++) {
+    Task task = tasks[i];
+    var value;
+
+    // If user selected value is of type Icon,
+    // convert into values between 0 and 2
+    // where 0 = X icon; 1 = check icon; 2 = not interested icon
+    if (task.userSelectedValue.runtimeType == IconData) {
+      value = iconToIndexMap[task.userSelectedValue];
+    } else {
+      // when user selected value is a double (ex: user weight)
+      value = task.userSelectedValue;
+    }
+    taskStatus[task.title] = value;
+  }
+  return taskStatus;
+}
 
 // For Stats Screen
 // Dummy DATA
@@ -32,7 +61,7 @@ class WeekTaskData {
     } else if (this.icon == Icons.close) {
       iconName = "Wrong";
     } else {
-      iconName = "Opportunities\nMissed";
+      iconName = "Opportunities Missed";
     }
   }
 }

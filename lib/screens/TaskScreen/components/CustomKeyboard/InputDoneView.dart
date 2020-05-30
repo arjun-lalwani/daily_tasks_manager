@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// This Widget is for the Done button on the numberpad keyboard (iOS)
 class InputDoneView extends StatelessWidget {
   final Function callback;
 
