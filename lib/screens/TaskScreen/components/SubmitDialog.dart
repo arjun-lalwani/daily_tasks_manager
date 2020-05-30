@@ -1,6 +1,8 @@
+import 'package:daily_tasks_manager/screens/TaskScreen/components/constants.dart';
 import 'package:flutter/material.dart';
 import '../../Task.dart';
 
+// Completed Refactoring
 class SubmitDialog extends StatelessWidget {
   final BuildContext context;
   final Function saveDataCb;
@@ -9,8 +11,16 @@ class SubmitDialog extends StatelessWidget {
 
   String _showAppropriateMessage() {
     int totalTasks = tasks.length;
-    int numOfTasksCompleted =
-        tasks.where((task) => (task.userSelectedValue != null)).toList().length;
+
+    // Calculate number of tasks user has completed
+    int numOfTasksCompleted = tasks
+        .where(
+          (task) => (task.userSelectedValue != null),
+        )
+        .toList()
+        .length;
+
+    // Append encouraging or inspiring messages to user
     String message = "$numOfTasksCompleted of $totalTasks tasks completed!\n";
     if (numOfTasksCompleted < totalTasks) {
       int remainingTasks = totalTasks - numOfTasksCompleted;
@@ -32,19 +42,10 @@ class SubmitDialog extends StatelessWidget {
       ),
       title: Container(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-          color: Colors.orange,
-        ),
+        decoration: kSubmitDialogStyle,
         child: Text(
           'Today\'s Tasks',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
+          style: kSubmitDialogTitleStyle,
         ),
       ),
       content: SingleChildScrollView(
@@ -55,32 +56,24 @@ class SubmitDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        FlatButton(
-          child: Text(
-            'Dismiss',
-            style: TextStyle(
-              color: Colors.orange,
-              fontSize: 16,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        FlatButton(
-          child: Text(
-            'Approve',
-            style: TextStyle(
-              color: Colors.orange,
-              fontSize: 16,
-            ),
-          ),
-          onPressed: () {
-            saveDataCb();
-            Navigator.of(context).pop();
-          },
-        )
+        _createActionButton('Dismiss', () {
+          Navigator.of(context).pop();
+        }),
+        _createActionButton('Approve', () {
+          saveDataCb();
+          Navigator.of(context).pop();
+        }),
       ],
+    );
+  }
+
+  Widget _createActionButton(String btnTitle, Function cb) {
+    return FlatButton(
+      child: Text(
+        '$btnTitle',
+        style: kDialogActionButtonStyle,
+      ),
+      onPressed: cb,
     );
   }
 }

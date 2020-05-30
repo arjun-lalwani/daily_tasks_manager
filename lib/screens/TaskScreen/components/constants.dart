@@ -53,3 +53,22 @@ const kTaskTitleSyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w500,
 );
+
+/* SUBMIT DIALOG CONSTANTS */
+const kSubmitDialogStyle = BoxDecoration(
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(10),
+    topRight: Radius.circular(10),
+  ),
+  color: Colors.orange,
+);
+
+const kSubmitDialogTitleStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w600,
+);
+
+const kDialogActionButtonStyle = TextStyle(
+  color: Colors.orange,
+  fontSize: 16,
+);
