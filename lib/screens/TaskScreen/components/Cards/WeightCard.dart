@@ -1,7 +1,7 @@
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
-import '../../../Task.dart';
 import '../CustomKeyboard/KeyboardOverlay.dart';
 import '../constants.dart';
 

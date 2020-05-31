@@ -1,6 +1,6 @@
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:daily_tasks_manager/screens/TaskScreen/components/constants.dart';
 import 'package:flutter/material.dart';
-import '../../Task.dart';
 
 // Completed Refactoring
 class SubmitDialog extends StatelessWidget {

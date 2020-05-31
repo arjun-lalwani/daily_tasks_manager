@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'package:daily_tasks_manager/screens/Task.dart';
+import 'package:daily_tasks_manager/services/TasksService.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'components/Cards/TaskCardsColumn.dart';
 import 'components/TasksCompleted.dart';
 import 'components/constants.dart';
@@ -38,28 +36,19 @@ class _TasksScreenState extends State<TasksScreen> {
   }
 
   _isDailyTasksCompleted() async {
-    final prefs = await SharedPreferences.getInstance();
-    String dateStr = DateFormat.yMd().format(date);
-
-    // Check if tasks status is complete or incomplete
-    var currTaskStatus = (prefs.containsKey(dateStr))
-        ? TaskStatus.complete
-        : TaskStatus.incomplete;
+    bool isComplete = await TasksService.isDailyTasksCompleted();
+    TaskStatus currStats =
+        (isComplete) ? TaskStatus.complete : TaskStatus.incomplete;
 
     // Based on curr task status, assign the appropriate UI to display
     setState(() {
-      userTaskStatusWidget = allTaskStatusWidgets[currTaskStatus];
+      userTaskStatusWidget = allTaskStatusWidgets[currStats];
     });
-    // prefs.clear();
   }
 
   _saveTaskData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dateStr = DateFormat.yMd().format(DateTime.now());
-
-    // Encode task completed status object into string for easy storage
-    String userSelectedValues = jsonEncode(getTasksStatus());
-    prefs.setString(dateStr, userSelectedValues);
+    // After saving task data, update widget to display
+    await TasksService.saveTaskData();
     setState(() {
       userTaskStatusWidget = allTaskStatusWidgets[TaskStatus.complete];
     });

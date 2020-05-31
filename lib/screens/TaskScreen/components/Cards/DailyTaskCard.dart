@@ -1,5 +1,5 @@
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:flutter/material.dart';
-import '../../../Task.dart';
 import '../constants.dart';
 
 class DailyTaskCard extends StatefulWidget {

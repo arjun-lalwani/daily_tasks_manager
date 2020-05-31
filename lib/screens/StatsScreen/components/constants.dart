@@ -1,7 +1,16 @@
-/* STAT CARDS */
-
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+/* STAT SCREEN */
+
+const kPageIndicatorStyle = SlideEffect(
+  dotHeight: 12,
+  dotWidth: 12,
+  activeDotColor: Colors.orange,
+  dotColor: Colors.grey,
+);
+
+/* STAT CARDS */
 final kStatCardStyle = BoxDecoration(
   borderRadius: BorderRadius.circular(20),
   border: Border.all(color: Colors.orange),

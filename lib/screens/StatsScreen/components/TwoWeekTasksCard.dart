@@ -1,18 +1,20 @@
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:flutter/material.dart';
 
-import '../../Task.dart';
 import 'StatIcon.dart';
 import 'constants.dart';
 
 class TwoWeekTasksCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Container();
+    /*
     return ListView.builder(
       itemCount: allWeekTaskData.length,
       itemBuilder: (context, index) {
         return _createTaskStatCard(allWeekTaskData[index]);
       },
-    );
+    );*/
   }
 
   Widget _createTaskStatCard(WeekTaskData taskData) {

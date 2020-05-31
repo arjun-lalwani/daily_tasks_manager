@@ -1,22 +1,25 @@
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:daily_tasks_manager/screens/StatsScreen/components/StatIcon.dart';
 import 'package:daily_tasks_manager/screens/StatsScreen/components/constants.dart';
 import 'package:flutter/material.dart';
-
-import '../../Task.dart';
 import 'Pill.dart';
 
 class WeekTaskCards extends StatelessWidget {
+  final Map<String, WeekTaskData> weekStats;
+
+  WeekTaskCards(this.weekStats);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: allWeekTaskData.length,
+      itemCount: weekStats.length,
       itemBuilder: (context, index) {
-        return _createTaskStatCard(context, allWeekTaskData[index]);
+        String metricTitle = weekStats.keys.toList()[index];
+        return _createTaskStatCard(context, weekStats[metricTitle]);
       },
     );
   }
 
-  Widget _createTaskStatCard(BuildContext context, WeekTaskData taskData) {
+  Widget _createTaskStatCard(BuildContext context, WeekTaskData metricData) {
     // Theme to modify out-of-box Expansion Tile
     final theme = Theme.of(context).copyWith(
       dividerColor: Colors.transparent, // remove dividers on top and bottom
@@ -35,13 +38,13 @@ class WeekTaskCards extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    StatCardIcon(taskData: taskData),
+                    StatCardIcon(taskData: metricData),
                     SizedBox(
                       width: 15,
                     ),
                     Expanded(
                       child: Text(
-                        "${taskData.iconName}",
+                        "${metricData.iconTitle}",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: kTitleTextStyle,
@@ -51,31 +54,37 @@ class WeekTaskCards extends StatelessWidget {
                 ),
               ),
               Text(
-                '${taskData.currScore}/${taskData.totalPossibleScore}',
+                '${metricData.currMetricScore}/${metricData.possibleMetricScore}',
                 style: kScoreTextStyle,
               ),
             ],
           ),
           children: [
             // Pills Menu
-            _createScoreDetailsMenu(),
+            _createTaskPillMenu(metricData.tasks, metricData.weekdays),
           ],
         ),
       ),
     );
   }
 
-  Widget _createScoreDetailsMenu() {
+  Widget _createTaskPillMenu(Map<String, int> tasks, int numOfWeekdays) {
     return Container(
       height: 40,
-      margin: EdgeInsets.only(bottom: 10, right: 10),
+      margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.only(left: 10, top: 10),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: sampleTasks.length,
+        itemCount: tasks.length,
         itemBuilder: (context, index) {
-          TaskScore task = sampleTasks[index];
-          return PillScoreCard(task: task);
+          String taskTitle = tasks.keys.toList()[index];
+          if (taskTitle == 'Enter Weight') return Container();
+          int taskScore = tasks[taskTitle];
+          return PillScoreCard(
+            taskTitle: taskTitle,
+            taskScore: taskScore,
+            numOfWeekdays: numOfWeekdays,
+          );
         },
       ),
     );

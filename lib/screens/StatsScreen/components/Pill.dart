@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../Task.dart';
-
 class PillScoreCard extends StatelessWidget {
-  final TaskScore task;
-  PillScoreCard({this.task});
+  final String taskTitle;
+  final int taskScore;
+  final int numOfWeekdays;
+  PillScoreCard({this.taskTitle, this.taskScore, this.numOfWeekdays});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class PillScoreCard extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '${task.category} - ',
+            '$taskTitle - ',
             style: TextStyle(
               letterSpacing: 1.0,
               color: Colors.white,
@@ -27,7 +27,7 @@ class PillScoreCard extends StatelessWidget {
             ),
           ),
           Text(
-            '${task.score}/7',
+            '$taskScore/$numOfWeekdays',
             style: TextStyle(
               letterSpacing: 1.0,
               color: Colors.white,

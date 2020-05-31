@@ -1,6 +1,9 @@
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:daily_tasks_manager/screens/StatsScreen/components/TwoWeekTasksCard.dart';
 import 'package:daily_tasks_manager/screens/StatsScreen/components/WeekTaskCards.dart';
+import 'package:daily_tasks_manager/screens/StatsScreen/components/constants.dart';
 import 'package:daily_tasks_manager/screens/TaskScreen/components/constants.dart';
+import 'package:daily_tasks_manager/services/TasksService.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -11,10 +14,10 @@ class StatsScreen extends StatefulWidget {
 
 class _StatsScreenState extends State<StatsScreen> {
   final controller = PageController(initialPage: 0);
+  Future<Map<String, WeekTaskData>> weekStatReport;
   int currPageNumber = 0;
 
   _createNewPage(newPageNumber) {
-    print(newPageNumber);
     setState(() {
       currPageNumber = newPageNumber;
     });
@@ -22,49 +25,65 @@ class _StatsScreenState extends State<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    weekStatReport = TasksService.getTaskStatsData();
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Your Stats",
-                    style: kHeadingTextStyle,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Your Stats",
+                        style: kHeadingTextStyle,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        _getSubHeading(),
+                        style: kDateTextStyle,
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 10,
+                ),
+                Expanded(
+                  child: FutureBuilder(
+                    future: weekStatReport,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return PageView.builder(
+                          onPageChanged: _createNewPage,
+                          controller: controller,
+                          itemCount: 2,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: (index == 0)
+                                  ? WeekTaskCards(snapshot.data)
+                                  : TwoWeekTasksCard(),
+                            );
+                          },
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
                   ),
-                  Text(
-                    _getSubHeading(),
-                    style: kDateTextStyle,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
-              child: PageView.builder(
-                onPageChanged: _createNewPage,
-                controller: controller,
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  var childCard =
-                      (index == 0) ? WeekTaskCards() : TwoWeekTasksCard();
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: childCard,
-                  );
-                },
-              ),
-            ),
-            Center(
+            Positioned(
+              bottom: 30,
               child: Container(
-                margin: EdgeInsets.only(bottom: 40),
-                child: _createPageIndicator(),
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: _createPageIndicator(),
+                ),
               ),
             ),
           ],
@@ -83,12 +102,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return SmoothPageIndicator(
       controller: controller,
       count: 2,
-      effect: SlideEffect(
-        dotHeight: 12,
-        dotWidth: 12,
-        activeDotColor: Colors.orange,
-        dotColor: Colors.grey,
-      ),
+      effect: kPageIndicatorStyle,
     );
   }
 }

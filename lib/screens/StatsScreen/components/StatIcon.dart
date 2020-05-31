@@ -1,4 +1,4 @@
-import 'package:daily_tasks_manager/screens/Task.dart';
+import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:flutter/material.dart';
 
 class StatCardIcon extends StatelessWidget {
