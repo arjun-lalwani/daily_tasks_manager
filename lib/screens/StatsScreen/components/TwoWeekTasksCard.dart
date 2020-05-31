@@ -5,19 +5,21 @@ import 'StatIcon.dart';
 import 'constants.dart';
 
 class TwoWeekTasksCard extends StatelessWidget {
+  final List<TwoWeekTaskData> lastTwoWeekData;
+
+  TwoWeekTasksCard(this.lastTwoWeekData);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
-    /*
     return ListView.builder(
-      itemCount: allWeekTaskData.length,
+      itemCount: lastTwoWeekData.length,
       itemBuilder: (context, index) {
-        return _createTaskStatCard(allWeekTaskData[index]);
+        return _createTaskStatCard(lastTwoWeekData[index]);
       },
-    );*/
+    );
   }
 
-  Widget _createTaskStatCard(WeekTaskData taskData) {
+  Widget _createTaskStatCard(TwoWeekTaskData taskData) {
     return Container(
       margin: EdgeInsets.only(top: 30),
       padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
@@ -27,15 +29,16 @@ class TwoWeekTasksCard extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          StatCardIcon(taskData: taskData),
+          StatCardIcon(taskIcon: taskData.icon),
           Expanded(
-            child: _createStateDetail('2/4', 'Week 2'),
+            child:
+                _createStateDetail('${taskData.pastTwoWeekScore}/28', 'Week 2'),
           ),
           Expanded(
-            child: _createStateDetail('2/4', 'Week 1'),
+            child: _createStateDetail('${taskData.pastWeekScore}/28', 'Week 1'),
           ),
           Expanded(
-            child: _createStateDetail('33%', 'WoW'),
+            child: _createStateDetail('${taskData.changeWoW()}%', 'WoW'),
           ),
         ],
       ),

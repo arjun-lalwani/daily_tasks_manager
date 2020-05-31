@@ -14,7 +14,7 @@ class StatsScreen extends StatefulWidget {
 
 class _StatsScreenState extends State<StatsScreen> {
   final controller = PageController(initialPage: 0);
-  Future<Map<String, WeekTaskData>> weekStatReport;
+  Future<List<UserStats>> userStats;
   int currPageNumber = 0;
 
   _createNewPage(newPageNumber) {
@@ -25,7 +25,7 @@ class _StatsScreenState extends State<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    weekStatReport = TasksService.getTaskStatsData();
+    userStats = TasksService.getTaskStatsData();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -54,7 +54,7 @@ class _StatsScreenState extends State<StatsScreen> {
                 ),
                 Expanded(
                   child: FutureBuilder(
-                    future: weekStatReport,
+                    future: userStats,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return PageView.builder(
@@ -62,11 +62,21 @@ class _StatsScreenState extends State<StatsScreen> {
                           controller: controller,
                           itemCount: 2,
                           itemBuilder: (context, index) {
+                            List<WeekTaskData> currWeekData = [];
+                            List<TwoWeekTaskData> pastTwoWeeksData = [];
+
+                            var allUserStats = snapshot.data;
+
+                            for (var userStats in allUserStats) {
+                              currWeekData.add(userStats.weekTaskData);
+                              pastTwoWeeksData.add(userStats.twoWeekTaskData);
+                            }
+
                             return Container(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: (index == 0)
-                                  ? WeekTaskCards(snapshot.data)
-                                  : TwoWeekTasksCard(),
+                                  ? WeekTaskCards(currWeekData)
+                                  : TwoWeekTasksCard(pastTwoWeeksData),
                             );
                           },
                         );

@@ -24,6 +24,7 @@ class _TasksScreenState extends State<TasksScreen> {
     // check if user has completed tasks
     _isDailyTasksCompleted();
 
+    TasksService.loadOneWeekDummyData();
     // store all possible task status widgets
     allTaskStatusWidgets = {
       TaskStatus.loading: CircularProgressIndicator(),

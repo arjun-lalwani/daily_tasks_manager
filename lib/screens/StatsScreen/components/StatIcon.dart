@@ -1,21 +1,20 @@
-import 'package:daily_tasks_manager/model/Task.dart';
 import 'package:flutter/material.dart';
 
 class StatCardIcon extends StatelessWidget {
-  final WeekTaskData taskData;
-  StatCardIcon({this.taskData});
+  final IconData taskIcon;
+  StatCardIcon({this.taskIcon});
   @override
   Widget build(BuildContext context) {
     var iconColor;
-    if (taskData.icon == Icons.close) {
+    if (taskIcon == Icons.close) {
       iconColor = Colors.red;
-    } else if (taskData.icon == Icons.check) {
+    } else if (taskIcon == Icons.check) {
       iconColor = Colors.green;
     } else {
       iconColor = Colors.grey;
     }
     return Icon(
-      taskData.icon,
+      taskIcon,
       color: iconColor,
       size: 36,
     );

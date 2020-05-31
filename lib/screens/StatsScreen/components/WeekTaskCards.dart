@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'Pill.dart';
 
 class WeekTaskCards extends StatelessWidget {
-  final Map<String, WeekTaskData> weekStats;
+  final List<WeekTaskData> weekStats;
 
   WeekTaskCards(this.weekStats);
   @override
@@ -13,8 +13,7 @@ class WeekTaskCards extends StatelessWidget {
     return ListView.builder(
       itemCount: weekStats.length,
       itemBuilder: (context, index) {
-        String metricTitle = weekStats.keys.toList()[index];
-        return _createTaskStatCard(context, weekStats[metricTitle]);
+        return _createTaskStatCard(context, weekStats[index]);
       },
     );
   }
@@ -38,7 +37,7 @@ class WeekTaskCards extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    StatCardIcon(taskData: metricData),
+                    StatCardIcon(taskIcon: metricData.icon),
                     SizedBox(
                       width: 15,
                     ),
