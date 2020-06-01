@@ -6,6 +6,8 @@ import 'package:daily_tasks_manager/services/TasksService.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'components/cards/ClearPrefsCard.dart';
+
 class StatsScreen extends StatefulWidget {
   @override
   _StatsScreenState createState() => _StatsScreenState();
@@ -59,14 +61,18 @@ class _StatsScreenState extends State<StatsScreen> {
                         return PageView.builder(
                           onPageChanged: _createNewPage,
                           controller: controller,
-                          itemCount: 2,
+                          itemCount: 3,
                           itemBuilder: (context, index) {
                             var stats = snapshot.data;
+                            dynamic childCard = ClearPrefsCard();
+                            if (index == 0) {
+                              childCard = WeekTaskCards(stats[index]);
+                            } else if (index == 1) {
+                              childCard = TwoWeekTasksCard(stats[index]);
+                            }
                             return Container(
                               padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: (index == 0)
-                                  ? WeekTaskCards(stats[index])
-                                  : TwoWeekTasksCard(stats[index]),
+                              child: childCard,
                             );
                           },
                         );
@@ -93,15 +99,22 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   String _getSubHeading() {
-    return (currPageNumber == 0)
-        ? 'Daily Tasks - Week Metrics'
-        : 'Daily Tasks - Past 2 Weeks Trends';
+    switch (currPageNumber) {
+      case 0:
+        return 'Daily Tasks - Week Metrics';
+      case 1:
+        return 'Daily Tasks - Past 2 Weeks Trends';
+      case 2:
+        return 'Clear Data';
+      default:
+        return 'Clear Data';
+    }
   }
 
   Widget _createPageIndicator() {
     return SmoothPageIndicator(
       controller: controller,
-      count: 2,
+      count: 3,
       effect: kPageIndicatorStyle,
     );
   }
