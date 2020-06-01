@@ -42,9 +42,9 @@ final kTaskCardStyle = BoxDecoration(
   boxShadow: [
     BoxShadow(
       blurRadius: 4,
-      spreadRadius: 2,
+      spreadRadius: 1,
       color: Colors.grey,
-      offset: Offset(0, 4),
+      offset: Offset(0, 6),
     )
   ],
 );
