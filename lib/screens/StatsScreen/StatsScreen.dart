@@ -1,6 +1,5 @@
-import 'package:daily_tasks_manager/model/Task.dart';
-import 'package:daily_tasks_manager/screens/StatsScreen/components/TwoWeekTasksCard.dart';
-import 'package:daily_tasks_manager/screens/StatsScreen/components/WeekTaskCards.dart';
+import 'package:daily_tasks_manager/screens/StatsScreen/components/cards/TwoWeekTasksCard.dart';
+import 'package:daily_tasks_manager/screens/StatsScreen/components/cards/WeekTaskCards.dart';
 import 'package:daily_tasks_manager/screens/StatsScreen/components/constants.dart';
 import 'package:daily_tasks_manager/screens/TaskScreen/components/constants.dart';
 import 'package:daily_tasks_manager/services/TasksService.dart';
@@ -14,7 +13,7 @@ class StatsScreen extends StatefulWidget {
 
 class _StatsScreenState extends State<StatsScreen> {
   final controller = PageController(initialPage: 0);
-  Future<List<UserStats>> userStats;
+  Future<List<dynamic>> userStats;
   int currPageNumber = 0;
 
   _createNewPage(newPageNumber) {
@@ -25,7 +24,7 @@ class _StatsScreenState extends State<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    userStats = TasksService.getTaskStatsData();
+    userStats = TasksService.getUserStatsData();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -62,21 +61,12 @@ class _StatsScreenState extends State<StatsScreen> {
                           controller: controller,
                           itemCount: 2,
                           itemBuilder: (context, index) {
-                            List<WeekTaskData> currWeekData = [];
-                            List<TwoWeekTaskData> pastTwoWeeksData = [];
-
-                            var allUserStats = snapshot.data;
-
-                            for (var userStats in allUserStats) {
-                              currWeekData.add(userStats.weekTaskData);
-                              pastTwoWeeksData.add(userStats.twoWeekTaskData);
-                            }
-
+                            var stats = snapshot.data;
                             return Container(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: (index == 0)
-                                  ? WeekTaskCards(currWeekData)
-                                  : TwoWeekTasksCard(pastTwoWeeksData),
+                                  ? WeekTaskCards(stats[index])
+                                  : TwoWeekTasksCard(stats[index]),
                             );
                           },
                         );
